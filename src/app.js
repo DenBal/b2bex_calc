@@ -1,4 +1,4 @@
-﻿Vue.component('select-location-sender', {
+Vue.component('select-location-sender', {
   data(){
     return {
       city: 0
@@ -15,7 +15,8 @@
 		<div>
 			<div  v-if="locations && locations.length">
 				<label>{{ name }}: </label>
-				<select @change="onChange" 
+				<select @change="o
+nChange" 
 					v-model="city"   
 					class='form-control city'>
 						<option value="0">{{ text }}</option>
@@ -75,6 +76,7 @@ var app = new Vue({
     locations: [],
 	locationSenders: [],
 	results: [],
+    userInfo: [],
     weight: [
       0.1,
       0.5,
@@ -158,6 +160,15 @@ var app = new Vue({
           //todo добавить вывод ошибки, что калькулятор не доступен
         })
     },
+    getUserInfo() {
+        axios.get('http://ip-api.com/json')
+            .then((response) => {
+             this.userInfo = response.data
+             console.log(this.userInfo)
+        }).catch( error => {
+            console.log(error)s
+        })
+    },
     delivery(){
       console.log(this.form)
       axios.post('http://b2bex.ru/api/delivery.php', this.form)
@@ -174,5 +185,6 @@ var app = new Vue({
   mounted(){
     this.getCountries()
 	this.getLocationsSender(643)
+    this.geUserInfo();
   }
 })
