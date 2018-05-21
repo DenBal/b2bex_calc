@@ -15,8 +15,7 @@ Vue.component('select-location-sender', {
 		<div>
 			<div  v-if="locations && locations.length">
 				<label>{{ name }}: </label>
-				<select @change="o
-nChange" 
+				<select @change="onChange" 
 					v-model="city"   
 					class='form-control city'>
 						<option value="0">{{ text }}</option>
@@ -121,7 +120,9 @@ var app = new Vue({
 	  receiver_country: 643,
       weight: 0,
       doc: true,
-    }
+	  is_st_peter: false,
+    },
+	userFrom: null
   },
   watch: {
     ['form.country'](){
@@ -165,8 +166,14 @@ var app = new Vue({
             .then((response) => {
              this.userInfo = response.data
              console.log(this.userInfo)
+			 this.user_from = this.userInfo.city
+			 if( this.user_from == 'Saint Petersburg') {
+				 this.form.is_st_peter = true
+				 console.log( this.form.is_st_peter)
+			 }
+			 console.log( this.form.is_st_peter)
         }).catch( error => {
-            console.log(error)s
+            console.log(error)
         })
     },
     delivery(){
@@ -185,6 +192,6 @@ var app = new Vue({
   mounted(){
     this.getCountries()
 	this.getLocationsSender(643)
-    this.geUserInfo();
+    this.getUserInfo();
   }
 })
