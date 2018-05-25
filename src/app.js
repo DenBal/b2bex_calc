@@ -121,8 +121,7 @@ var app = new Vue({
       weight: 0,
       doc: true,
 	  is_st_peter: false,
-    },
-	userFrom: null
+    }
   },
   watch: {
     ['form.country'](){
@@ -166,8 +165,11 @@ var app = new Vue({
             .then((response) => {
              this.userInfo = response.data
              console.log(this.userInfo)
-			 this.user_from = this.userInfo.city
-			 if( this.user_from == 'Saint Petersburg') {
+			 this.user_city = this.userInfo.city
+			 this.user_region = this.userInfo.region
+			 console.log(this.user_city);
+			 console.log(this.user_region);
+			 if( this.user_city == 'St Petersburg' || this.user_region == 'SPE') {
 				 this.form.is_st_peter = true
 				 console.log( this.form.is_st_peter)
 			 }

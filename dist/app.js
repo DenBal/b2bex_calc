@@ -51,8 +51,7 @@ var app = new Vue({
       weight: 0,
       doc: true,
       is_st_peter: false
-    },
-    userFrom: null
+    }
   },
   watch: _defineProperty({}, 'form.country', function formCountry() {
     console.log('Country changed', this.form.country);
@@ -98,8 +97,11 @@ var app = new Vue({
       axios.get('http://ip-api.com/json').then(function (response) {
         _this4.userInfo = response.data;
         console.log(_this4.userInfo);
-        _this4.user_from = _this4.userInfo.city;
-        if (_this4.user_from == 'Saint Petersburg') {
+        _this4.user_city = _this4.userInfo.city;
+        _this4.user_region = _this4.userInfo.region;
+        console.log(_this4.user_city);
+        console.log(_this4.user_region);
+        if (_this4.user_city == 'St Petersburg' || _this4.user_region == 'SPE') {
           _this4.form.is_st_peter = true;
           console.log(_this4.form.is_st_peter);
         }
