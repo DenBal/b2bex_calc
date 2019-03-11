@@ -10,7 +10,6 @@ Vue.component('select-location-sender', {
   props: ['locations', 'name', 'text', 'model'],
   methods: {
     onChange: function onChange(e) {
-      console.log("New location is " + this.city, e);
       this.$emit('update:model', this.city);
     }
   },
@@ -27,7 +26,6 @@ Vue.component('select-location-receiver', {
   props: ['locations', 'name', 'model'],
   methods: {
     onChange: function onChange(e) {
-      console.log("New location is " + this.city, e);
       this.$emit('update:model', this.city);
     }
   },
@@ -35,13 +33,14 @@ Vue.component('select-location-receiver', {
 });
 
 var app = new Vue({
-  el: '#app',
+  el: '#calc',
   data: {
     countries: [],
     locations: [],
     locationSenders: [],
     results: [],
     userInfo: [],
+    trackInfo: [],
     weight: [0.1, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 31.5],
     form: {
       sender_country: 643,
@@ -63,7 +62,6 @@ var app = new Vue({
 
       axios.get('http://b2bex.ru/api/countries.php').then(function (response) {
         _this.countries = response.data;
-        console.log(_this.countries);
       }).catch(function (error) {
         console.log(error);
         //todo добавить вывод ошибки, что калькулятор не доступен
@@ -74,7 +72,6 @@ var app = new Vue({
 
       axios.get('http://b2bex.ru/api/locations.php', { params: { country_id: country_id } }).then(function (response) {
         _this2.locationSenders = response.data;
-        console.log(_this2.locationSenders);
       }).catch(function (error) {
         console.log(error);
         //todo добавить вывод ошибки, что калькулятор не доступен
@@ -85,7 +82,6 @@ var app = new Vue({
 
       axios.get('http://b2bex.ru/api/locations.php', { params: { country_id: country_id } }).then(function (response) {
         _this3.locations = response.data;
-        console.log(_this3.locations);
       }).catch(function (error) {
         console.log(error);
         //todo добавить вывод ошибки, что калькулятор не доступен
@@ -96,16 +92,11 @@ var app = new Vue({
 
       axios.get('http://ip-api.com/json').then(function (response) {
         _this4.userInfo = response.data;
-        console.log(_this4.userInfo);
         _this4.user_city = _this4.userInfo.city;
         _this4.user_region = _this4.userInfo.region;
-        console.log(_this4.user_city);
-        console.log(_this4.user_region);
-        if (_this4.user_city == 'St Petersburg' || _this4.user_region == 'SPE') {
+        if (_this4.user_region == 'SPE') {
           _this4.form.is_st_peter = true;
-          console.log(_this4.form.is_st_peter);
         }
-        console.log(_this4.form.is_st_peter);
       }).catch(function (error) {
         console.log(error);
       });
@@ -113,10 +104,8 @@ var app = new Vue({
     delivery: function delivery() {
       var _this5 = this;
 
-      console.log(this.form);
       axios.post('http://b2bex.ru/api/delivery.php', this.form).then(function (response) {
         _this5.results = response.data;
-        console.log(response);
       }).catch(function (error) {
         console.log(error);
         //todo добавить вывод ошибки, что калькулятор не доступен

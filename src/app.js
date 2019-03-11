@@ -7,7 +7,6 @@ Vue.component('select-location-sender', {
   props: ['locations', 'name', 'text', 'model'],
   methods: {
     onChange(e){
-      console.log("New location is "+this.city, e)
       this.$emit('update:model', this.city)
     }
   },
@@ -43,7 +42,6 @@ Vue.component('select-location-receiver', {
   props: ['locations', 'name', 'model'],
   methods: {
     onChange(e){
-      console.log("New location is "+this.city, e)
       this.$emit('update:model', this.city)
     }
   },
@@ -69,13 +67,14 @@ Vue.component('select-location-receiver', {
 })
 
 var app = new Vue({
-  el: '#app',
+  el: '#calc',
   data: {
     countries: [],
     locations: [],
 	locationSenders: [],
 	results: [],
     userInfo: [],
+    trackInfo:[],
     weight: [
       0.1,
       0.5,
@@ -134,7 +133,6 @@ var app = new Vue({
       axios.get('http://b2bex.ru/api/countries.php')
         .then((response) => {
           this.countries = response.data
-          console.log(this.countries)
         }).catch( error => {
         console.log(error)
         //todo добавить вывод ошибки, что калькулятор не доступен
@@ -144,7 +142,6 @@ var app = new Vue({
       axios.get('http://b2bex.ru/api/locations.php', { params: { country_id } })
         .then((response) => {
           this.locationSenders = response.data
-          console.log(this.locationSenders)
         }).catch( error => {
           console.log(error)
           //todo добавить вывод ошибки, что калькулятор не доступен
@@ -154,7 +151,6 @@ var app = new Vue({
       axios.get('http://b2bex.ru/api/locations.php', { params: { country_id } })
         .then((response) => {
           this.locations = response.data
-          console.log(this.locations)
         }).catch( error => {
           console.log(error)
           //todo добавить вывод ошибки, что калькулятор не доступен
@@ -164,32 +160,25 @@ var app = new Vue({
         axios.get('http://ip-api.com/json')
             .then((response) => {
              this.userInfo = response.data
-             console.log(this.userInfo)
 			 this.user_city = this.userInfo.city
 			 this.user_region = this.userInfo.region
-			 console.log(this.user_city);
-			 console.log(this.user_region);
-			 if( this.user_city == 'St Petersburg' || this.user_region == 'SPE') {
+			 if(this.user_region == 'SPE') {
 				 this.form.is_st_peter = true
-				 console.log( this.form.is_st_peter)
 			 }
-			 console.log( this.form.is_st_peter)
         }).catch( error => {
             console.log(error)
         })
     },
     delivery(){
-      console.log(this.form)
       axios.post('http://b2bex.ru/api/delivery.php', this.form)
         .then(response => {
 		  this.results = response.data
-          console.log(response)
         })
         .catch( error => {
           console.log(error)
           //todo добавить вывод ошибки, что калькулятор не доступен
         })
-    }
+    },
   },
   mounted(){
     this.getCountries()
