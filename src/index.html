@@ -3,17 +3,16 @@
         <title>B2bex location calculate</title>
     </head>
     <body>
-        <section id="calc">
-            <div class="container">
+        <section id="calc" class="calc">
+            <div class="calc__container">
                 <h2>Тарифы и сроки</h2>
                 <p>(Цены указаны в рублях, с учётом НДС)</p>
-                <hr>
-                <form id="calculate" name="calculate" class="form-horizontal" @submit.prevent="delivery()">
-                    <div class="box-from">
-                        <div class="">
+                <form id="calculate" name="calculate" class="calc__form" @submit.prevent="delivery()">
+                    <div class="calc__form-box box-from">
+                        <div class="calc__form-box__label">
                             <h3>Откуда:</h3>
                         </div>
-                        <div class="">
+                        <div class="calc__form-box__select">
                              <select-location-sender
                                   :locations="locationSenders"
                                   :model.sync="form.sender"
@@ -21,12 +20,11 @@
                                   text="Выберите город отправления"></select-location-sender>
                         </div>
                     </div>
-                    <hr>
-                    <div class="box-to">
-                        <div class="">
+                    <div class="calc__form-box box-to">
+                        <div class="calc__form-box__label">
                             <h3>Куда:</h3>
                         </div>
-                        <div class="">
+                        <div class="calc__form-box__select">
                           <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                           <label for="inlineRadio1" class="radio-inline"><span></span>по России</label>
                           <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
@@ -41,42 +39,42 @@
                                      text="Выберите город получения"></select-location-sender>
                             </div>
                             <div id="no-resident">
-                                 <select-location-receiver
+                                <select-location-receiver
                                      :locations="countries"
                                      :model.sync="form.receiver_country"
                                      name="Страна"></select-location-receiver>
-                                  <div style="display: inline-block; width: 49%;">
-                                      <label for="type">Посылка:</label>
-                                      <select v-model="form.doc" class="form-control doc">
-                        <option value="0">Выберите тип посылки</option>
-                                            <option value="true">документ</option>
-                        <option value="false">посылка</option>
-                                      </select>
-                                   </div>
+                                <div style="display: inline-block; width: 49%;">
+                                    <label for="type">Посылка:</label>
+                                    <select v-model="form.doc" class="form-control doc">
+                                        <option value="0">Выберите тип посылки</option>
+                                        <option value="true">документ</option>
+                                        <option value="false">посылка</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="box-weight">
-                        <div class="">
+                    <div class="calc__form-box box-weight">
+                        <div class="calc__form-box__label">
                             <h3>Вес:</h3>
                         </div>
-                        <div class="">
+                        <div class="calc__form-box__section">
                             <label for="wieght">Вес:</label>
                             <select v-model="form.weight" class="form-control">
                                 <option value="0">Выберите вес посылки</option>
                                 <option v-for="n in weight" :value="n">{{ n }}</option>
                              </select>
                         </div>
-                         <div class="">
+                    </div>
+                    <div class="calc__form-buttons">
+                         <div class="calc__form-buttons__btn">
                             <button type="submit" class="btn-calc" v-on:click="delivery()">
                                 <div class="text">Рассчитать</div>
                             </button>
                         </div>
-                             <div id="calc_result_new">
-                                   <h4> <span id="itogo_cena">{{ results.fee ? results.fee : 0 }}</span> руб.</h4>
-                                   <p><span id="itogo_day">{{ results.period ? results.period : 0 }}</span> дней</p>
-                             </div>
+                        <div id="calc_result_new">
+                            <h4> <span id="itogo_cena">{{ results.fee ? results.fee : 0 }}</span> руб.</h4>
+                            <p><span id="itogo_day">{{ results.period ? results.period : 0 }}</span> дней</p>
                         </div>
                     </div>
                 </form>
